@@ -2,28 +2,31 @@
 This program is a solution to a problem I was once asked to write.
 
 Once downloaded, open your terminal and change directory to the downloaded source directory:
-%cd expression-language
-Compile the code:
-%javac calculator/*.java
-Run it:
-%java calculator.Main "add(1,2)"
-%3
-
+<p>%cd expression-language</p>
+<p>Compile the code:</p>
+<p>%javac calculator/*.java</p>
+<p>Run it:</p>
+<p>%java calculator.Main "add(1,2)"</p>
+<p>%3</p>
+<p>
 Write a calculator program in Java that evaluates expressions in a very simple integer expression language.   
+</p>
+<p>
 The program takes an input on the command line, computes the result, and prints it to the console. 
+</p>
+<p>For example:</p>
+<p>% java calculator.Main “mult(2, 2)”</p>
+<p>% 4</p>
 
-For example:
-% java calculator.Main “mult(2, 2)”
-% 4
-
-Few more examples:
-Input                                                  output
-add(1, 2)                                                 3
-add(1, mult(2, 3))                                        7
-mult(add(2, 2), div(9, 3))                               12
-let(a, 5, add(a, a))                                     10
-let(a, 5, let(b, mult(a, 10), add(b, a)))                55
-let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b)))     40
+<b>Few more examples:</b>
+|Input                                                | Output  |
+------------------------------------------------------|---------|
+|add(1, 2)                                                 |3|
+|add(1, mult(2, 3))                                        |7|
+|mult(add(2, 2), div(9, 3))                               |12|
+|let(a, 5, add(a, a))                                     |10|
+|let(a, 5, let(b, mult(a, 10), add(b, a)))                |55|
+|let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b)))     |40|
  
 An expression is one of the of the following:
  - Numbers: integers between Integer.MIN_VALUE and Integer.MAX_VALUE
