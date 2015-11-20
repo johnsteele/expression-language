@@ -353,9 +353,6 @@ public class CalculatorToken {
 		 */
 		public IntegerOperand(int value) {
 			super(Type.INTEGER);
-			// TODO: need to consider overflow
-			// need to prevent math.max and math.min
-			
 			this.value = value;
 		}
 		
