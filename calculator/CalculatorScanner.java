@@ -80,7 +80,7 @@ public class CalculatorScanner {
 		}
 		
 		// Lastly, check for keyword.
-		if (CalculatorUtil.canStartIdentifier(calculatorCharacterStream.peek())) {
+		if (CalculatorUtil.isValidIdentifierCharacter(calculatorCharacterStream.peek())) {
 			return scanKeywordToken();
 		}
 	

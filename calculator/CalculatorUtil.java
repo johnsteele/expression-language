@@ -22,29 +22,15 @@ public class CalculatorUtil {
 	private static final String DIVIDE_ZERO_MESSAGE = "Division error - cannot divide by zero.";
 	
 	/**
-	 * Returns whether the provided character can be used to 
-	 * start an identifier.
-	 * 
-	 * @param input the character to test.
-	 * @return true if can start identifier, false otherwise.
-	 */
-	public static boolean canStartIdentifier(char input) {
-		return !isDigit(input) && isValidIdentifierCharacter(input);
-	}
-
-	/**
 	 * Returns whether the provided character can be used somewhere
 	 * within an identifier's name.
 	 * 
-	 * @param input the character to test.
+	 * @param input the character to check.
 	 * @return true if the character can be within an identifier,
 	 * false otherwise.
 	 */
 	public static boolean isValidIdentifierCharacter(char input) {
-		if ('a' <= input && input <= 'z') {
-			return true;
-		}
-		if (isDigit(input)) {
+		if (('a' <= input && input <= 'z') || ('A' <= input && input <= 'Z')) {
 			return true;
 		}
 		return false;

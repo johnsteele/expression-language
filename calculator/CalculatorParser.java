@@ -199,10 +199,6 @@ public class CalculatorParser {
 	 * @throws Error If parsing the let expression fails.
 	 */
 	private IExpression letExpression(Map<String, IOperand> scope) {
-		// new LetExpression(variable, leftOperand, rightOperand)
-		IOperand leftOperand = null;
-		IOperand rightOperand = null;
-		
 		IExpression expression = null;
 		expect(KEYWORD);
 		expect(LEFT_PAREN);
@@ -213,41 +209,59 @@ public class CalculatorParser {
 			KeywordToken variableKeywordToken = (KeywordToken)variableToken;
 			if(scope.get(variableKeywordToken.getKeyword()) == null) {
 				expect(COMMA);
-				
-				// Variable value expression
-				CalculatorToken valueToken = tokenStream.peekToken();
-				Type valueType = valueToken.getType();
-				
-				// Could be a Integer value or an expression.
-				if (valueType == INTEGER || valueType == KEYWORD) {
-					
-					// Check Integer 
-					if (valueType == INTEGER && valueToken instanceof IntegerOperand) {
-						tokenStream.advance();
-						leftOperand = (IntegerOperand)valueToken;
-					}
-					// Otherwise, operation keyword
-					else if (valueType == KEYWORD) {
-						leftOperand = expression(new HashMap<String, IOperand>(scope));
-					}
-					
-					// The operand responsible for evaluating the variable's value.
-					IOperand variableEvaluationOperand = new VariableOperand(variableKeywordToken.getKeyword(), leftOperand);
-					// Now we add it to the scope.
-					scope.put(variableKeywordToken.getKeyword(), variableEvaluationOperand);
-
-					expect(COMMA);
-					
-					// Expression where the variable is used, the variable is in the scope.
-					rightOperand = expression(new HashMap<String, IOperand>(scope));
-					expect(RIGHT_PAREN);
-					expression = new LetExpression(variableKeywordToken.getKeyword(), leftOperand, rightOperand);
-				}
+				expression = parseLetExpressionOperands(scope, variableKeywordToken);
 			}
 		}
 		if (expression == null) {
 			error("error parsing let expression");
 		}
+		return expression;
+	}
+	
+	/**
+	 * Completes the parsing of the {@link LetExpression} using the provided scope and token.
+	 * 
+	 * @param scope the scope available to the expression.
+	 * @param variableKeywordToken the variable token.
+	 * @return the new expression, or null if the expression had parsing errors.
+	 * @throws Error if parsing failed.
+	 */
+	private IExpression parseLetExpressionOperands(Map<String, IOperand> scope, KeywordToken variableKeywordToken) {
+		
+		IExpression expression = null;
+		
+		// Variable value expression
+		CalculatorToken valueToken = tokenStream.peekToken();
+		Type valueType = valueToken.getType();
+		
+		// Could be a Integer value or an expression.
+		if (valueType == INTEGER || valueType == KEYWORD) {
+			
+			IOperand leftOperand = null;
+			
+			// Check Integer 
+			if (valueType == INTEGER && valueToken instanceof IntegerOperand) {
+				tokenStream.advance();
+				leftOperand = (IntegerOperand)valueToken;
+			}
+			// Otherwise, operation keyword
+			else if (valueType == KEYWORD) {
+				leftOperand = expression(new HashMap<String, IOperand>(scope));
+			}
+			
+			// The operand responsible for evaluating the variable's value.
+			IOperand variableEvaluationOperand = new VariableOperand(variableKeywordToken.getKeyword(), leftOperand);
+			// Now we add it to the scope.
+			scope.put(variableKeywordToken.getKeyword(), variableEvaluationOperand);
+
+			expect(COMMA);
+			
+			// Expression where the variable is used, the variable is in the scope.
+			IOperand rightOperand = expression(new HashMap<String, IOperand>(scope));
+			expect(RIGHT_PAREN);
+			expression = new LetExpression(variableKeywordToken.getKeyword(), leftOperand, rightOperand);
+		}
+		
 		return expression;
 	}
 	
@@ -271,8 +285,9 @@ public class CalculatorParser {
 	 * log this error instead of bailing.
 	 * 
 	 * @param message the message to be included in the error.
+	 * @throws Error the error with the specified error message.
 	 */
-	private void error(String message) {
+	private void error(String message) throws Error {
 		throw new Error(message);
 	}
 }
