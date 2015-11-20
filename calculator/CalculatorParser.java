@@ -131,26 +131,57 @@ public class CalculatorParser {
 		return expression;
 	}
 	
+	/**
+	 * Parses and returns an add expression.
+	 * 
+	 * @param scope the scope available to the add expression.
+	 * @return the add expression.
+	 */
 	private IExpression addExpression(Map<String, IOperand> scope) {
 		OperandPair pair = operandPair(scope);
 		return new AddExpression(pair.getLeftOperand(), pair.getRightOperand());
 	}
 	
+	/**
+	 * Parses and returns an subtract expression.
+	 * 
+	 * @param scope the scope available to the subtract expression.
+	 * @return the subtract expression.
+	 */
 	private IExpression subtractExpression(Map<String, IOperand> scope) {
 		OperandPair pair = operandPair(scope);
 		return new SubtractExpression(pair.getLeftOperand(), pair.getRightOperand());
 	}
 	
+	/**
+	 * Parses and returns an multiply expression.
+	 * 
+	 * @param scope the scope available to the multiply expression.
+	 * @return the multiply expression.
+	 */
 	private IExpression multiplyExpression(Map<String, IOperand> scope) {
 		OperandPair pair = operandPair(scope);
 		return new MultiplyExpression(pair.getLeftOperand(), pair.getRightOperand());
 	}
 	
+	/**
+	 * Parses and returns an divide expression.
+	 * 
+	 * @param scope the scope available to the divide expression.
+	 * @return the divide expression.
+	 */
 	private IExpression divideExpression(Map<String, IOperand> scope) {
 		OperandPair pair = operandPair(scope);
 		return new DivideExpression(pair.getLeftOperand(), pair.getRightOperand());
 	}
 	
+	/**
+	 * Parses and returns an {@link OperandPair} that wrap the 
+	 * left and right operands.
+	 * 
+	 * @param scope the scope available to the operands.
+	 * @return the pair containing the left and right operands.
+	 */
 	private OperandPair operandPair(Map<String, IOperand> scope) {
 		expect(KEYWORD);
 		expect(LEFT_PAREN);
@@ -161,6 +192,13 @@ public class CalculatorParser {
 		return new OperandPair(leftOperand, rightOperand);
 	}
 	
+	/**
+	 * Parses and returns an operand. The operand returned
+	 * will be one of type integer, expression, or keyword.
+	 * 
+	 * @param scope The scope available to the operand.
+	 * @return The operand corresponding to the type.
+	 */
 	private IOperand operand(Map<String, IOperand> scope) {
 		IOperand operand = null;
 		
@@ -254,6 +292,14 @@ public class CalculatorParser {
 		return expression;
 	}
 	
+	/**
+	 * A helper method that throws an error if the next
+	 * token returned from the token stream is not what
+	 * we'd expect.
+	 * 
+	 * @param type The expected Token type.
+	 * @throws Error if the token stream doesn't return the type we expect.
+	 */
 	private void expect(Type type) {
 		CalculatorToken t = tokenStream.advance();
 		if (t.getType() != type) {
@@ -261,6 +307,11 @@ public class CalculatorParser {
 		}
 	}
 
+	/***
+	 * Logs the provided message and throws an error.
+	 * 
+	 * @param message the message to log and include in error.
+	 */
 	private void error(String message) {
 		LOGGER.severe(message);
 		throw new Error(message);

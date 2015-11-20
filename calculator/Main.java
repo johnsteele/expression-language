@@ -13,6 +13,9 @@ import calculator.CalculatorToken.IExpression;
  */
 public class Main {
 	
+	/**
+	 * For reporting parser errors.
+	 */
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 	
 	public static void main(String[] args) {
@@ -24,6 +27,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Takes the provided expression, feeds it to the parser, and outputs
+	 * evaluated result to the console.
+	 * 
+	 * @param expression the expression to parse.
+	 */
 	private static void processExpression(String expression) {
 		try {
 			IExpression result = new CalculatorParser(expression).run();
