@@ -1,10 +1,9 @@
 # expression-language
 This program is a solution to a problem I was once asked to write.
 
-Requirements: Java 8
+Requirements: <b>Java 8</b>
 
 Once downloaded, open your terminal and change directory to the downloaded source directory:
-<p>
 <b>%cd expression-language</b><br>
 <br>
 Compile the code:<br>
@@ -13,7 +12,7 @@ Compile the code:<br>
 Run it:<br>
 <b>%java calculator.Main "add(1,2)"</b><br>
 <b>%3</b><br>
-</p>
+
 <p>
 <hr/>
 <h3>This is the problem to be solved</h3>
