@@ -13,6 +13,8 @@ Run it:<br>
 <b>%3</b><br>
 </p>
 <p>
+<hr/>
+<h3>This is the problem to be solved</h3>
 Write a calculator program in Java that evaluates expressions in a very simple integer expression language.
 </p>
 <p>
