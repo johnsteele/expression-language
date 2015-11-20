@@ -92,7 +92,6 @@ public class CalculatorParser {
 		// If the scanner failed, or we're not looking at a keyword.
 		if (token == null || !(token instanceof KeywordToken)) {
 			error("Parsing expression failed.");
-			return null;
 		}
 		
 		// Match the scanned keyword to an operation.
@@ -263,14 +262,15 @@ public class CalculatorParser {
 	private void expect(Type type) {
 		CalculatorToken t = tokenStream.advance();
 		if (t.getType() != type) {
-			throw new Error("Expected type " + type.getKeyword() + ", but instead was type " + t.getType().getKeyword());
+			error("Expected type " + type.getKeyword() + ", but instead was type " + t.getType().getKeyword());
 		}
 	}
 
 	/***
-	 * Logs the provided message and throws an error.
+	 * Throws an error. If we later on introduce backtracking we might want to
+	 * log this error instead of bailing.
 	 * 
-	 * @param message the message to log and include in error.
+	 * @param message the message to be included in the error.
 	 */
 	private void error(String message) {
 		throw new Error(message);
