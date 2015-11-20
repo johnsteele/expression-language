@@ -63,7 +63,7 @@ For example:<br>
  <li>Arithmetic functions: add, sub, mult, div, each taking two arbitrary expressions as arguments.<br>
     In other words, each argument may be any of the expressions on this list.</li>
  <li>A “let” operator for assigning values to variables:<br>
-    <b>let(<variable name>, <value expression>, <expression where variable is used>)</b></li>
+    <b>let(&lt;variable name&gt;, &lt;value expression&gt;, &lt;expression where variable is used&gt;)</b></li>
 </ul>
 <p>
 As with arithmetic functions, the value expression and the expression <br> where the variable is used
