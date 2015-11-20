@@ -17,11 +17,6 @@ public class CalculatorUtil {
 	private static final String OPERATION_ERROR_MESSAGE = "Exception while performing operation (%s) with values (%s, %s)";
 	
 	/**
-	 * The message logged when an int is too small.
-	 */
-	private static final String INT_MIN_MESSAGE = "int too small. int value must not be less than Integer.MIN_VALUE";
-	
-	/**
 	 * The message logged when division is attempted by zero.
 	 */
 	private static final String DIVIDE_ZERO_MESSAGE = "Division error - cannot divide by zero.";
@@ -74,23 +69,6 @@ public class CalculatorUtil {
 	 */
 	public static int createInteger(String sequence) throws ArithmeticException {
 		return new BigInteger(sequence).intValueExact();
-	}
-	
-	/**
-	 * Tries to safely negate the provided int.
-	 * 
-	 * @param value the value to negate.
-	 * @return the negated value.
-	 * @throws Error if negation causes value to be less than Integer.MIN_VALUE
-	 */
-	public static int safelyNegate(int value) throws Error {
-		BigInteger negated = new BigInteger(String.valueOf(value)).negate();
-		try {
-			int result = negated.intValueExact();
-			return result;
-		} catch (ArithmeticException e) {
-			throw new Error(INT_MIN_MESSAGE);
-		}
 	}
 	
 	/**

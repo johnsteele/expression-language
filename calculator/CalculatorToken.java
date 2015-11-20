@@ -374,13 +374,6 @@ public class CalculatorToken {
 		public int getValue() {
 			return value;
 		}
-		
-		/**
-		 * Sets this operand's Integer value to negative.
-		 */
-		public void setNegative() throws Error {
-			this.value = CalculatorUtil.safelyNegate(getValue());
-		}
 	}
 	
 	/**
