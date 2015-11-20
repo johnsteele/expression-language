@@ -6,8 +6,10 @@ Requirements: Java 8
 Once downloaded, open your terminal and change directory to the downloaded source directory:
 <p>
 <b>%cd expression-language</b><br>
+<br>
 Compile the code:<br>
 <b>%javac calculator/*.java</b><br>
+<br>
 Run it:<br>
 <b>%java calculator.Main "add(1,2)"</b><br>
 <b>%3</b><br>
