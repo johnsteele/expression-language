@@ -112,13 +112,13 @@ public class CalculatorToken {
 	}
 	
 	/**
-	 * AbstractExpression represents the base class for all {@link IExpression}s.
+	 * Expression represents the base class for all {@link IExpression}s.
 	 * The base class stores the left and right {@link IOperand}s. 
 	 * An {@link IExpression} can be evaluated via {@link IEvaluatable}.
 	 * 
 	 * @author John Steele <programjsteele@gmail.com>
 	 */
-	public static abstract class AbstractExpression extends CalculatorToken implements IExpression {
+	public static class Expression extends CalculatorToken implements IExpression {
 		
 		/**
 		 * The left operand in the expression.
@@ -137,7 +137,7 @@ public class CalculatorToken {
 		 * @param leftOperand the expression's left operand.
 		 * @param rightOperand the expressions' right operand.
 		 */
-		public AbstractExpression(Type type, IOperand leftOperand, IOperand rightOperand) {
+		public Expression(Type type, IOperand leftOperand, IOperand rightOperand) {
 			super(type);
 			this.leftOperand = leftOperand;
 			this.rightOperand = rightOperand;
@@ -173,88 +173,12 @@ public class CalculatorToken {
 	}
 	
 	/**
-	 * An {@link IExpression} that adds it's left and right operands.
-	 * 
-	 * @author John Steele <programjsteele@gmail.com>
-	 */
-	public static class AddExpression extends AbstractExpression {
-		
-		/**
-		 * Creates a new AddExpression instance with the specified
-		 * left and right operands.
-		 * 
-		 * @param leftOperand the expression's left operand.
-		 * @param rightOperand the expression's right operand.
-		 */
-		public AddExpression(IOperand leftOperand, IOperand rightOperand) {
-			super (Type.ADD, leftOperand, rightOperand);
-		}
-	}
-	
-	/**
-	 * An {@link IExpression} that subtracts it's left and right operands.
-	 * 
-	 * @author John Steele <programjsteele@gmail.com>
-	 */
-	public static class SubtractExpression extends AbstractExpression {
-		
-		/**
-		 * Creates a new SubtractExpression instance with the specified
-		 * left and right operands.
-		 * 
-		 * @param leftOperand the expression's left operand.
-		 * @param rightOperand the expression's right operand.
-		 */
-		public SubtractExpression(IOperand leftOperand, IOperand rightOperand) {
-			super (Type.SUBTACT, leftOperand, rightOperand);
-		}
-	}
-	
-	/**
-	 * An {@link IExpression} that multiplies it's left and right operands.
-	 * 
-	 * @author John Steele <programjsteele@gmail.com>
-	 */
-	public static class MultiplyExpression extends AbstractExpression {
-		
-		/**
-		 * Creates a new MultiplyExpression instance with the specified
-		 * left and right operands.
-		 * 
-		 * @param leftOperand the expression's left operand.
-		 * @param rightOperand the expression's right operand.
-		 */
-		public MultiplyExpression(IOperand leftOperand, IOperand rightOperand) {
-			super (Type.MULTIPLY, leftOperand, rightOperand);
-		}
-	}
-	
-	/**
-	 * An {@link IExpression} that divides it's left and right operands.
-	 * 
-	 * @author John Steele <programjsteele@gmail.com>
-	 */
-	public static class DivideExpression extends AbstractExpression {
-
-		/**
-		 * Creates a new DivideExpression instance with the specified
-		 * left and right operands.
-		 * 
-		 * @param leftOperand the expression's left operand.
-		 * @param rightOperand the expression's right operand.
-		 */		
-		public DivideExpression(IOperand leftOperand, IOperand rightOperand) {
-			super (Type.DIVIDE, leftOperand, rightOperand);
-		}
-	}
-	
-	/**
 	 * An {@link IExpression} that stores a variable, which can then be used 
 	 * within it's right operand.
 	 * 
 	 * @author John Steele <programjsteele@gmail.com>
 	 */
-	public static class LetExpression extends AbstractExpression {
+	public static class LetExpression extends Expression {
 		
 		/**
 		 * The variable this expression defines that can be used within 

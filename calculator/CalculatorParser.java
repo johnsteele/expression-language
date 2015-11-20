@@ -14,18 +14,14 @@ import static calculator.CalculatorToken.Type.SUBTACT;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import calculator.CalculatorToken.AddExpression;
-import calculator.CalculatorToken.DivideExpression;
 import calculator.CalculatorToken.IExpression;
 import calculator.CalculatorToken.IOperand;
 import calculator.CalculatorToken.IntegerOperand;
 import calculator.CalculatorToken.KeywordToken;
 import calculator.CalculatorToken.LetExpression;
-import calculator.CalculatorToken.MultiplyExpression;
+import calculator.CalculatorToken.Expression;
 import calculator.CalculatorToken.OperandPair;
-import calculator.CalculatorToken.SubtractExpression;
 import calculator.CalculatorToken.Type;
 import calculator.CalculatorToken.VariableOperand;
 
@@ -41,11 +37,6 @@ import calculator.CalculatorToken.VariableOperand;
  * @author John Steele <programjsteele@gmail.com>
  */
 public class CalculatorParser {
-
-	/**
-	 * For reporting parse information and errors.
-	 */
-	private static final Logger LOGGER = Logger.getLogger(CalculatorParser.class.getSimpleName());
 
 	/**
 	 * The calculator token stream this parser reads from.
@@ -110,16 +101,16 @@ public class CalculatorParser {
 		
 		// The operation must be one of the following:
 		if (next == ADD) {
-			expression = addExpression(scope);
+			expression = newExpression(ADD, scope);
 		}
 		else if (next == SUBTACT) {
-			expression = subtractExpression(scope);
+			expression = newExpression(SUBTACT, scope);
 		}
 		else if (next == MULTIPLY) {
-			expression = multiplyExpression(scope);
+			expression = newExpression(MULTIPLY, scope);
 		}
 		else if (next == DIVIDE) {
-			expression = divideExpression(scope);
+			expression = newExpression(DIVIDE, scope);
 		}
 		else if (next == LET) {
 			expression = letExpression(scope);
@@ -132,49 +123,18 @@ public class CalculatorParser {
 	}
 	
 	/**
-	 * Parses and returns an add expression.
+	 * Creates a new {@link Expression} with the specified type. The scope
+	 * is used to build the left and right operands of the expression.
 	 * 
-	 * @param scope the scope available to the add expression.
-	 * @return the add expression.
+	 * @param type the type of expression to create.
+	 * @param scope the scope for the left and right operands.
+	 * @return the new Expression of the specified type.
 	 */
-	private IExpression addExpression(Map<String, IOperand> scope) {
+	private IExpression newExpression(Type type, Map<String, IOperand> scope) {
 		OperandPair pair = operandPair(scope);
-		return new AddExpression(pair.getLeftOperand(), pair.getRightOperand());
+		return new Expression(type, pair.getLeftOperand(), pair.getRightOperand());
 	}
-	
-	/**
-	 * Parses and returns an subtract expression.
-	 * 
-	 * @param scope the scope available to the subtract expression.
-	 * @return the subtract expression.
-	 */
-	private IExpression subtractExpression(Map<String, IOperand> scope) {
-		OperandPair pair = operandPair(scope);
-		return new SubtractExpression(pair.getLeftOperand(), pair.getRightOperand());
-	}
-	
-	/**
-	 * Parses and returns an multiply expression.
-	 * 
-	 * @param scope the scope available to the multiply expression.
-	 * @return the multiply expression.
-	 */
-	private IExpression multiplyExpression(Map<String, IOperand> scope) {
-		OperandPair pair = operandPair(scope);
-		return new MultiplyExpression(pair.getLeftOperand(), pair.getRightOperand());
-	}
-	
-	/**
-	 * Parses and returns an divide expression.
-	 * 
-	 * @param scope the scope available to the divide expression.
-	 * @return the divide expression.
-	 */
-	private IExpression divideExpression(Map<String, IOperand> scope) {
-		OperandPair pair = operandPair(scope);
-		return new DivideExpression(pair.getLeftOperand(), pair.getRightOperand());
-	}
-	
+
 	/**
 	 * Parses and returns an {@link OperandPair} that wrap the 
 	 * left and right operands.
@@ -313,7 +273,6 @@ public class CalculatorParser {
 	 * @param message the message to log and include in error.
 	 */
 	private void error(String message) {
-		LOGGER.severe(message);
 		throw new Error(message);
 	}
 }
