@@ -1,6 +1,8 @@
 # expression-language
 This program is a solution to a problem I was once asked to write.
 
+Requirements: Java 8
+
 Once downloaded, open your terminal and change directory to the downloaded source directory:
 <p>
 <b>%cd expression-language</b><br>
