@@ -70,14 +70,7 @@ public class CalculatorParser {
 	
 	/**
 	 * Parses and returns an {@link IExpression} representing
-	 * one of the following:
-	 * <ul>
-	 * 	<li>{@link AddExpression}</li>
-	 *  <li>{@link SubtractExpression}</li>
-	 *  <li>{@link MultiplyExpression}</li>
-	 *  <li>{@link DivideExpression}</li>
-	 *  <li>{@link LetExpression}</li>
-	 * </ul>
+	 * an expression for the specific operation type.
 	 * 
 	 * @param scope The local scope to the returned expression containing
 	 *        variables it has access to.
