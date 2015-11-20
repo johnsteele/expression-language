@@ -25,7 +25,7 @@ public class CalculatorScanner {
 	/**
 	 * The underlying character-by-character stream we read from.
 	 */
-	private CharacterStream calculatorCharacterStream;
+	private CalculatorCharacterStream calculatorCharacterStream;
 	
 	/**
 	 * Creates a new CalculatorScanner instance using the
@@ -34,7 +34,7 @@ public class CalculatorScanner {
 	 * @param input The input to be used by the underlying character stream.
 	 */
 	public CalculatorScanner(String input) {
-		calculatorCharacterStream = new CharacterStream(input);
+		calculatorCharacterStream = new CalculatorCharacterStream(input);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class CalculatorScanner {
 		// If the next character is a positive number
 		if (CalculatorUtil.isDigit(calculatorCharacterStream.peek())) {
 			// scan the numbers into a token.
-			return scanPositiveIntegerToken();
+			return scanIntegerToken("");
 		}
 		
 		// Check for negative integer, parenthesis, or comma.
@@ -74,7 +74,8 @@ public class CalculatorScanner {
 				return new CalculatorToken(COMMA); 
 			}
 			case '-': {
-				return scanNegativeIntegerToken();
+				calculatorCharacterStream.advance();
+				return scanIntegerToken("-");
 			}
 		}
 		
@@ -97,28 +98,23 @@ public class CalculatorScanner {
 		}
 	}
 	
-	/** 
-	 * Reads a negative integer from the input stream.
-	 */
-	private CalculatorToken scanNegativeIntegerToken() {
-		calculatorCharacterStream.advance();
-		IntegerOperand token = scanPositiveIntegerToken();
-		token.setNegative();
-		return token;
-	}
-	
 	/**
 	 * Reads the consecutive digits from the input stream to 
 	 * form the integer token.
 	 * 
 	 * @return the token representing the scanned digits. 
 	 */
-	private IntegerOperand scanPositiveIntegerToken() {
-		String sequence = "";
+	private IntegerOperand scanIntegerToken(String sequence) {
 		while (CalculatorUtil.isDigit(calculatorCharacterStream.peek())) {
 			sequence += calculatorCharacterStream.advance();
 		}
-		return new IntegerOperand(Integer.valueOf(sequence));
+		try {
+			int value = CalculatorUtil.createInteger(sequence);
+			return new IntegerOperand(value);
+		}
+		catch (ArithmeticException e) {
+			throw new Error("Lexical error - Integer overflow for value: " + sequence);
+		}
 	}
 	
 	/**

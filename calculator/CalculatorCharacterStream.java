@@ -11,9 +11,12 @@ import java.util.logging.Logger;
  * 
  * @author John Steele <programjsteele@gmail.com>
  */
-public class CharacterStream {
+public class CalculatorCharacterStream {
 
-	private static final Logger LOGGER = Logger.getLogger(CharacterStream.class.getSimpleName());
+	/**
+	 * For reporting I/O errors.
+	 */
+	private static final Logger LOGGER = Logger.getLogger(CalculatorCharacterStream.class.getSimpleName());
 	
 	/**
 	 * Flag indicating the end of input stream.
@@ -43,7 +46,7 @@ public class CharacterStream {
 	 *  
 	 * @param input The input to read and traverse.
 	 */
-	public CharacterStream(String input) {
+	public CalculatorCharacterStream(String input) {
 		this.inputStream = new CharArrayReader(input.toCharArray());
 		// prime the first character.
 		advance();

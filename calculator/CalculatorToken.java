@@ -114,9 +114,7 @@ public class CalculatorToken {
 	/**
 	 * AbstractExpression represents the base class for all {@link IExpression}s.
 	 * The base class stores the left and right {@link IOperand}s. 
-	 * An {@link IExpression} can be evaluated via {@link IEvaluatable}. 
-	 * Evaluating expression is done differently depending on the type of expression; 
-	 * Therefore, it is the responsibility of the derived base class to implement {@link #evaluate()}. 
+	 * An {@link IExpression} can be evaluated via {@link IEvaluatable}.
 	 * 
 	 * @author John Steele <programjsteele@gmail.com>
 	 */
@@ -150,7 +148,10 @@ public class CalculatorToken {
 		 * @see calculator.Token.IEvaluatable#evaluate()
 		 */
 		@Override
-		public abstract int evaluate();
+		public int evaluate() {
+			return CalculatorUtil.peformSafeOperation(getType(), 
+					getLeftOperand().evaluate(), getRightOperand().evaluate());
+		}
 		
 		/*
 		 * (non-Javadoc)
@@ -188,15 +189,6 @@ public class CalculatorToken {
 		public AddExpression(IOperand leftOperand, IOperand rightOperand) {
 			super (Type.ADD, leftOperand, rightOperand);
 		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see calculator.Token.AbstractExpression#evaluate()
-		 */
-		@Override
-		public int evaluate() {
-			return getLeftOperand().evaluate() + getRightOperand().evaluate();
-		}
 	}
 	
 	/**
@@ -215,15 +207,6 @@ public class CalculatorToken {
 		 */
 		public SubtractExpression(IOperand leftOperand, IOperand rightOperand) {
 			super (Type.SUBTACT, leftOperand, rightOperand);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see calculator.Token.AbstractExpression#evaluate()
-		 */
-		@Override
-		public int evaluate() {
-			return getLeftOperand().evaluate() - getRightOperand().evaluate();
 		}
 	}
 	
@@ -244,15 +227,6 @@ public class CalculatorToken {
 		public MultiplyExpression(IOperand leftOperand, IOperand rightOperand) {
 			super (Type.MULTIPLY, leftOperand, rightOperand);
 		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see calculator.Token.AbstractExpression#evaluate()
-		 */
-		@Override
-		public int evaluate() {
-			return getLeftOperand().evaluate() * getRightOperand().evaluate();
-		}
 	}
 	
 	/**
@@ -271,20 +245,6 @@ public class CalculatorToken {
 		 */		
 		public DivideExpression(IOperand leftOperand, IOperand rightOperand) {
 			super (Type.DIVIDE, leftOperand, rightOperand);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see calculator.Token.AbstractExpression#evaluate()
-		 */
-		@Override
-		public int evaluate() {
-			int leftValue = getLeftOperand().evaluate();
-			int rightValue = getRightOperand().evaluate();
-			if (rightValue == 0) {
-				throw new Error("Division error - cannot divide by zero.");
-			}
-			return leftValue / rightValue;
 		}
 	}
 	
@@ -393,6 +353,9 @@ public class CalculatorToken {
 		 */
 		public IntegerOperand(int value) {
 			super(Type.INTEGER);
+			// TODO: need to consider overflow
+			// need to prevent math.max and math.min
+			
 			this.value = value;
 		}
 		
@@ -415,8 +378,8 @@ public class CalculatorToken {
 		/**
 		 * Sets this operand's Integer value to negative.
 		 */
-		public void setNegative() {
-			this.value = -value;
+		public void setNegative() throws Error {
+			this.value = CalculatorUtil.safelyNegate(getValue());
 		}
 	}
 	
