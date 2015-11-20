@@ -99,11 +99,11 @@ public class CalculatorParser {
 		
 		// The operation must be one of the following:
 		switch (next) {
-			case ADD:      expression = newExpression(ADD, scope); break;
+			case ADD:      expression = newExpression(ADD, scope);      break;
 			case SUBTRACT: expression = newExpression(SUBTRACT, scope); break;
 			case MULTIPLY: expression = newExpression(MULTIPLY, scope); break;
-			case DIVIDE:   expression = newExpression(DIVIDE, scope); break;
-			case LET:      expression = letExpression(scope); break;
+			case DIVIDE:   expression = newExpression(DIVIDE, scope);   break;
+			case LET:      expression = letExpression(scope);           break;
 			default : {
 				error("Operation not supported. Expected add, sub, mult, div, let");
 			}
@@ -134,9 +134,9 @@ public class CalculatorParser {
 	private OperandPair operandPair(Map<String, IOperand> scope) {
 		expect(KEYWORD);
 		expect(LEFT_PAREN);
-		IOperand leftOperand = operand(scope);
+		IOperand leftOperand = operand(new HashMap<String, IOperand>(scope));
 		expect(COMMA);
-		IOperand rightOperand = operand(scope);
+		IOperand rightOperand = operand(new HashMap<String, IOperand>(scope));
 		expect(RIGHT_PAREN);
 		return new OperandPair(leftOperand, rightOperand);
 	}
@@ -171,6 +171,9 @@ public class CalculatorParser {
 				expect(KEYWORD);
 				operand = new VariableOperand(keywordToken.getKeyword(), 
 						scope.get(keywordToken.getKeyword()));
+			}
+			else {
+				error("'" + keywordToken.getKeyword() + "' is not in the scope.");
 			}
 		}
 		
