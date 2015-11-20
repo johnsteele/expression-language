@@ -7,20 +7,19 @@ import static calculator.CalculatorToken.Type.EOF;
 import static calculator.CalculatorToken.Type.INTEGER;
 import static calculator.CalculatorToken.Type.KEYWORD;
 import static calculator.CalculatorToken.Type.LEFT_PAREN;
-import static calculator.CalculatorToken.Type.LET;
 import static calculator.CalculatorToken.Type.MULTIPLY;
 import static calculator.CalculatorToken.Type.RIGHT_PAREN;
-import static calculator.CalculatorToken.Type.SUBTACT;
+import static calculator.CalculatorToken.Type.SUBTRACT;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import calculator.CalculatorToken.Expression;
 import calculator.CalculatorToken.IExpression;
 import calculator.CalculatorToken.IOperand;
 import calculator.CalculatorToken.IntegerOperand;
 import calculator.CalculatorToken.KeywordToken;
 import calculator.CalculatorToken.LetExpression;
-import calculator.CalculatorToken.Expression;
 import calculator.CalculatorToken.OperandPair;
 import calculator.CalculatorToken.Type;
 import calculator.CalculatorToken.VariableOperand;
@@ -99,24 +98,15 @@ public class CalculatorParser {
 		Type next = Type.getTypeWithSequence(keywordToken.getKeyword());
 		
 		// The operation must be one of the following:
-		if (next == ADD) {
-			expression = newExpression(ADD, scope);
-		}
-		else if (next == SUBTACT) {
-			expression = newExpression(SUBTACT, scope);
-		}
-		else if (next == MULTIPLY) {
-			expression = newExpression(MULTIPLY, scope);
-		}
-		else if (next == DIVIDE) {
-			expression = newExpression(DIVIDE, scope);
-		}
-		else if (next == LET) {
-			expression = letExpression(scope);
-		}
-		// Operation not supported by our language.
-		else {
-			error("Operation not supported. Expected add, sub, mult, div, let");
+		switch (next) {
+			case ADD:      expression = newExpression(ADD, scope); break;
+			case SUBTRACT: expression = newExpression(SUBTRACT, scope); break;
+			case MULTIPLY: expression = newExpression(MULTIPLY, scope); break;
+			case DIVIDE:   expression = newExpression(DIVIDE, scope); break;
+			case LET:      expression = letExpression(scope); break;
+			default : {
+				error("Operation not supported. Expected add, sub, mult, div, let");
+			}
 		}
 		return expression;
 	}

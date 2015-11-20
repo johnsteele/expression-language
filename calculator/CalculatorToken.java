@@ -46,7 +46,7 @@ public class CalculatorToken {
 	 */
 	public static enum Type {
 		ADD("add"),
-		SUBTACT("sub"),
+		SUBTRACT("sub"),
 		MULTIPLY("mult"),
 		DIVIDE("div"),
 		LET("let"),

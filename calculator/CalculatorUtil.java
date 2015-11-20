@@ -76,7 +76,7 @@ public class CalculatorUtil {
 					reportOperationError(type, leftValue, rightValue);
 				}
 			}
-			case SUBTACT: {
+			case SUBTRACT: {
 				try {
 					int result = Math.subtractExact(leftValue, rightValue);
 					return result;
